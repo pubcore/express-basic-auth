@@ -35,11 +35,12 @@
   "author": "pubcore",
   "dependencies": {
     "@pubcore/authentication": "^1.0.2",
-    "@pubcore/knex-auth": "^1.0.0",
+    "@pubcore/knex-auth": "^1.0.2",
     "basic-auth": "^2.0.0",
     "cookie": "^0.3.1"
   },
   "devDependencies": {
+    "@pubcore/knex-create-test-db": "^1.0.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",

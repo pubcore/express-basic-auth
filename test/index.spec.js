@@ -2,7 +2,8 @@ import chai, {expect} from 'chai'
 import login from '../src/index'
 import chaiHttp from 'chai-http'
 import express from 'express'
-import {createTestDb} from '@pubcore/knex-auth'
+import {dbTypes} from '@pubcore/knex-auth'
+import createTestDb from '@pubcore/knex-create-test-db'
 import defaultMap from './userDefaultMap'
 
 chai.use(chaiHttp)
@@ -27,7 +28,7 @@ const app = express(),
 		username:'tom', password_secondary:'new'
 	}, {
 		username:'ben', password_expiry_date:new Date()
-	}]), beforeEach, after}),
+	}]), beforeEach, after, dbTypes}),
 	db = {knex, table},
 	error = err => {throw err}
 
