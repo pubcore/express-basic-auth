@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha --inspect --require babel-register --require source-map-support --recursive",
+    "test": "nyc --reporter=html --reporter=text mocha --inspect --require babel-register --recursive",
     "build": "babel src --out-dir js",
     "prepare": "npm run build",
     "watch": "babel --watch src --out-dir js",
@@ -16,24 +16,28 @@
       "transform-object-rest-spread"
     ]
   },
-  "name": "@pubcore/authentication-rest",
+  "name": "@pubcore/express-basic-auth",
   "version": "1.0.0",
-  "description": "express middleware to for http basic authentication workflow",
+  "description": "express middleware to perform http basic authentication",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pubcore/express-basic-auth.git"
+  },
   "directories": {
     "test": "test"
   },
   "keywords": [
-    "basic",
-    "auth",
+    "basic-auth",
     "authentication",
-    "login",
-    "workflow"
+    "express middleware",
+    "login"
   ],
   "author": "pubcore",
   "dependencies": {
-    "@pubcore/auth-user": "^1.0.0",
-    "@pubcore/authentication": "^1.0.0",
-    "basic-auth": "^2.0.0"
+    "@pubcore/authentication": "^1.0.2",
+    "@pubcore/knex-auth": "^1.0.0",
+    "basic-auth": "^2.0.0",
+    "cookie": "^0.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -43,10 +47,12 @@
     "chai-http": "^4.0.0",
     "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
-    "eslint-plugin-mocha": "^5.0.0",
+    "eslint-plugin-mocha": "^5.2.0",
     "express": "^4.16.3",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
-    "nyc": "^12.0.2"
+    "nyc": "^12.0.2",
+    "source-map-support": "^0.5.9",
+    "sqlite3": "^4.0.2"
   }
 }

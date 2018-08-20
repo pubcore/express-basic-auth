@@ -25,19 +25,19 @@
         <span class='fraction'>19/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/6</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>13/13</span>
+        <span class='fraction'>14/14</span>
       </div>
     </div>
     <p class="quiet">
@@ -86,7 +86,6 @@
 <a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -95,67 +94,68 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import basicAuth from 'basic-auth'
-import getUser from '@pubcore/auth-user'
+import getUser, {comparePassword} from '@pubcore/knex-auth'
 import authenticate from '@pubcore/authentication'
-import {comparePassword} from '@pubcore/auth-user'
 import gofer from './gofer/authenticateGofer'
 &nbsp;
 const authenticateOptions = { //all time values in [ms]
 	maxTimeWithoutActivity: 1000 * 60 * 60 * 24 * 180,
-	maxTimeWithout401: 1000 * 60 * 60 * 6,
 	maxLoginAttempts:5,
 	maxLoginAttemptsTimeWindow:1000 * 60 * 60 * 24,
 }
 &nbsp;
 const httpOptions = {
-	publicDeactivatedUri:'/login/deactivated',
 	changePasswordUri:'/login/pwChange',
+	publicDeactivatedUri:'/login/deactivated',
 	publicCancelLoginUri:'/login/canceled',
-	publicInternalServerErrorUri:'/unexpected/error'
 }
 &nbsp;
-export default ({db, getOptions}) =&gt; (...args) =&gt; {
+export default ({db, options}) =&gt; (...args) =&gt; {
 	var [req, res, next] = args,
 		{name, pass} = basicAuth(req) || {}
 &nbsp;
-	return getOptions().then(options =&gt; authenticate({
+	return authenticate({
 		username:name,
 		password:pass,
 		gofer:gofer({
-			db, req, res, options:{...httpOptions, ...(options || <span class="branch-1 cbranch-no" title="branch not covered" >{})}</span>
+			db, req, res, options:{...httpOptions, ...options}
 		}),
 		carrier: {
-			getOptions: () =&gt; Promise.resolve({...authenticateOptions, ...(options||<span class="branch-1 cbranch-no" title="branch not covered" >{})}),</span>
-			getUser:({username}) =&gt; getUser({db, username})
+			getOptions: () =&gt; Promise.resolve({...authenticateOptions, ...options}),
+			getUser:({username}) =&gt; getUser(db, {username})
 		},
 		lib:{comparePassword}
-	})).catch(err =&gt; next(err))
+	}).then(user =&gt; {
+		user &amp;&amp; (req.user = user)
+		next()
+	}).catch(next)
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -163,7 +163,7 @@ export default ({db, getOptions}) =&gt; (...args) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jul 12 2018 17:01:51 GMT+0200 (CEST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Aug 20 2018 20:15:03 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

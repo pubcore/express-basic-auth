@@ -8,21 +8,18 @@ exports.default = function (_ref) {
 	var publicCancelLoginUri = _ref.publicCancelLoginUri,
 	    res = _ref.res;
 
-	var _text = 'Unauthorized (401)';
+	var text = 'Unauthorized (401)';
 	res.status(401);
 	res.append('WWW-Authenticate', 'Basic Realm="Pls cancel this dialog if you forgot your password."');
 	res.format({
 		'text/html': function textHtml() {
-			return res.send('<html><body>' + _text + '<script>document.location.href=\'' + publicCancelLoginUri + '\'</script></body></html>');
+			return res.send('<!DOCTYPE html>\n<html><body>\n\t' + text + '\n\t<script>document.location.href=\'' + publicCancelLoginUri + '\'</script>\n</body></html>');
 		},
 		'application/json': function applicationJson() {
-			return res.send({ status: { code: 'ERROR', text: _text }, publicCancelLoginUri: publicCancelLoginUri });
-		},
-		text: function text() {
-			return res.send(_text);
+			return res.send({ status: { code: 'ERROR', text: text }, publicCancelLoginUri: publicCancelLoginUri });
 		},
 		default: function _default() {
-			return res.send(_text);
+			return res.send(text + '; see ' + publicCancelLoginUri);
 		}
 	});
 };

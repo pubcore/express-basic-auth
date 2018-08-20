@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10.53% </span>
+        <span class="strong">9.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/19</span>
+        <span class='fraction'>2/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/5</span>
+        <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.38% </span>
+        <span class="strong">13.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/13</span>
+        <span class='fraction'>2/15</span>
       </div>
     </div>
     <p class="quiet">
@@ -83,7 +83,8 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -95,9 +96,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -118,6 +117,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import basicAuth from 'basic-auth'
@@ -128,16 +130,14 @@ import {comparePassword} from '@pubcore/auth-user'
 &nbsp;
 const authenticateOptions = <span class="cstat-no" title="statement not covered" >{ //all time values in [ms]</span>
 	maxTimeWithoutActivity: 1000 * 60 * 60 * 24 * 180,
-	maxTimeWithout401: 1000 * 60 * 60 * 6,
 	maxLoginAttempts:5,
 	maxLoginAttemptsTimeWindow:1000 * 60 * 60 * 24,
 }
 &nbsp;
 const httpOptions = <span class="cstat-no" title="statement not covered" >{</span>
-	publicDeactivatedUri:'/login/deactivated',
 	changePasswordUri:'/login/pwChange',
+	publicDeactivatedUri:'/login/deactivated',
 	publicCancelLoginUri:'/login/canceled',
-	publicInternalServerErrorUri:'/unexpected/error'
 }
 &nbsp;
 export default <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >({db, getOptions}) =&gt; <span class="fstat-no" title="function not covered" >(...<span class="cstat-no" title="statement not covered" >args) =&gt; <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span>{</span></span></span></span></span>
@@ -155,7 +155,10 @@ export default <span class="cstat-no" title="statement not covered" ><span class
 			getUser:<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({username}) =&gt; getUser({db, username})</span></span></span>
 		},
 		lib:{comparePassword}
-	})).catch(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >err =&gt; next(err))</span></span>
+	})).then(<span class="fstat-no" title="function not covered" >user =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >		user &amp;&amp; (req.user = user)</span>
+<span class="cstat-no" title="statement not covered" >		next()</span>
+	}).catch(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >err =&gt; next(err))</span></span>
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -163,7 +166,7 @@ export default <span class="cstat-no" title="statement not covered" ><span class
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jul 12 2018 17:01:32 GMT+0200 (CEST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Aug 16 2018 18:03:46 GMT+0200 (CEST)
 </div>
 </div>
 <script src="prettify.js"></script>

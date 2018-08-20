@@ -10,9 +10,9 @@ var _basicAuth = require('basic-auth');
 
 var _basicAuth2 = _interopRequireDefault(_basicAuth);
 
-var _authUser = require('@pubcore/auth-user');
+var _knexAuth = require('@pubcore/knex-auth');
 
-var _authUser2 = _interopRequireDefault(_authUser);
+var _knexAuth2 = _interopRequireDefault(_knexAuth);
 
 var _authentication = require('@pubcore/authentication');
 
@@ -26,21 +26,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var authenticateOptions = { //all time values in [ms]
 	maxTimeWithoutActivity: 1000 * 60 * 60 * 24 * 180,
-	maxTimeWithout401: 1000 * 60 * 60 * 6,
 	maxLoginAttempts: 5,
 	maxLoginAttemptsTimeWindow: 1000 * 60 * 60 * 24
 };
 
 var httpOptions = {
-	publicDeactivatedUri: '/login/deactivated',
 	changePasswordUri: '/login/pwChange',
-	publicCancelLoginUri: '/login/canceled',
-	publicInternalServerErrorUri: '/unexpected/error'
+	publicDeactivatedUri: '/login/deactivated',
+	publicCancelLoginUri: '/login/canceled'
 };
 
 exports.default = function (_ref) {
 	var db = _ref.db,
-	    getOptions = _ref.getOptions;
+	    options = _ref.options;
 	return function () {
 		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 			args[_key] = arguments[_key];
@@ -53,26 +51,25 @@ exports.default = function (_ref) {
 		    name = _ref2.name,
 		    pass = _ref2.pass;
 
-		return getOptions().then(function (options) {
-			return (0, _authentication2.default)({
-				username: name,
-				password: pass,
-				gofer: (0, _authenticateGofer2.default)({
-					db: db, req: req, res: res, options: _extends({}, httpOptions, options || {})
-				}),
-				carrier: {
-					getOptions: function getOptions() {
-						return Promise.resolve(_extends({}, authenticateOptions, options || {}));
-					},
-					getUser: function getUser(_ref3) {
-						var username = _ref3.username;
-						return (0, _authUser2.default)({ db: db, username: username });
-					}
+		return (0, _authentication2.default)({
+			username: name,
+			password: pass,
+			gofer: (0, _authenticateGofer2.default)({
+				db: db, req: req, res: res, options: _extends({}, httpOptions, options)
+			}),
+			carrier: {
+				getOptions: function getOptions() {
+					return Promise.resolve(_extends({}, authenticateOptions, options));
 				},
-				lib: { comparePassword: _authUser.comparePassword }
-			});
-		}).catch(function (err) {
-			return next(err);
-		});
+				getUser: function getUser(_ref3) {
+					var username = _ref3.username;
+					return (0, _knexAuth2.default)(db, { username: username });
+				}
+			},
+			lib: { comparePassword: _knexAuth.comparePassword }
+		}).then(function (user) {
+			user && (req.user = user);
+			next();
+		}).catch(next);
 	};
 };
