@@ -1,10 +1,10 @@
 {
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha --inspect --require babel-register --recursive",
+    "test": "nyc --reporter=text mocha --inspect --require babel-register --recursive",
     "build": "babel src --out-dir js",
     "prepare": "npm run build",
     "watch": "babel --watch src --out-dir js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov"
   },
   "main": "js/index.js",
   "license": "MIT",
@@ -45,7 +45,6 @@
     "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
-    "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
     "eslint-plugin-mocha": "^5.2.0",
     "express": "^4.16.3",
