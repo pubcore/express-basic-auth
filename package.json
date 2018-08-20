@@ -35,7 +35,7 @@
   "author": "pubcore",
   "dependencies": {
     "@pubcore/authentication": "^1.0.2",
-    "@pubcore/knex-auth": "^1.0.2",
+    "@pubcore/knex-auth": "^1.0.3",
     "basic-auth": "^2.0.0",
     "cookie": "^0.3.1"
   },
