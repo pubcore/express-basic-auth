@@ -31,7 +31,12 @@ export default ({db, options}) => (...args) => {
 		},
 		lib:{comparePassword}
 	}).then(user => {
-		user && (req.user = user)
+		if(user){
+			var {username, email, first_name, last_name, last_login, oldPwUsed} = user
+			req.user = {
+				username, email, first_name, last_name, last_login, oldPwUsed
+			}
+		}
 		next()
 	}).catch(next)
 }

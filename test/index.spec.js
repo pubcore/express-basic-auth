@@ -118,4 +118,9 @@ describe('http authentication service', () => {
 	it('does set a flag (oldPwUsed), if secondary password exists, but old password has been used', () =>
 		correctPasswordRequest('tom').then(({body}) => expect(body.oldPwUsed).to.be.true)
 	)
+	it('does not add any password fields', () =>
+		correctPasswordRequest('tom').then(({body}) =>
+			expect(JSON.stringify(body)).to.not.contain('password')
+		)
+	)
 })
