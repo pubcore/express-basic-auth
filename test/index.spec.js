@@ -28,7 +28,9 @@ const app = express(),
 		username:'tom', password_secondary:'new'
 	}, {
 		username:'ben', password_expiry_date:new Date()
-	}]), beforeEach, after, dbTypes}),
+	}]), beforeEach, after, dbTypes:{
+		...dbTypes, first_name:'string', last_name:'string', email:'string'
+	}}),
 	db = {knex, table},
 	error = err => {throw err}
 
@@ -121,6 +123,12 @@ describe('http authentication service', () => {
 	it('does not add any password fields', () =>
 		correctPasswordRequest('tom').then(({body}) =>
 			expect(JSON.stringify(body)).to.not.contain('password')
+		)
+	)
+	it('serves basic user data', () =>
+		correctPasswordRequest('tom').then(({body}) =>
+			expect(JSON.stringify(body)).to.contain('first_name')
+				.and.contain('last_name').and.contain('email')
 		)
 	)
 })

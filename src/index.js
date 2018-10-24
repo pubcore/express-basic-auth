@@ -27,7 +27,9 @@ export default ({db, options}) => (...args) => {
 		}),
 		carrier: {
 			getOptions: () => Promise.resolve({...authenticateOptions, ...options}),
-			getUser:({username}) => getUser(db, {username})
+			getUser:({username}) => getUser(
+				{...db, cols:['first_name', 'last_name', 'email']}, {username}
+			)
 		},
 		lib:{comparePassword}
 	}).then(user => {
