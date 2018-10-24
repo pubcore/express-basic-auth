@@ -5,3 +5,4 @@ node_modules/
 .npm
 .nyc_output
 mydb.sqlite
+js
