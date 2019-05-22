@@ -1,13 +1,20 @@
-import chai, {expect} from 'chai'
-import login from '../src/index'
-import chaiHttp from 'chai-http'
-import express from 'express'
-import {dbTypes} from '@pubcore/knex-auth'
-import createTestDb from '@pubcore/knex-create-test-db'
-import defaultMap from './userDefaultMap'
+'use strict'
+
+const chai = require('chai'),
+	{expect} = chai,
+	login = require('../js/index').default,
+	chaiHttp = require('chai-http'),
+	express = require('express'),
+	{dbTypes} = require('@pubcore/knex-auth'),
+	createTestDb = require('@pubcore/knex-create-test-db').default,
+	defaultMap = require('./userDefaultMap').default,
+	{resolve} = require('path'),
+	cookie = require('cookie'),
+	JWT = require('jsonwebtoken')
 
 chai.use(chaiHttp)
 const app = express(),
+	app2 = express(),
 	options = {
 		publicDeactivatedUri:'/login/deactivated',
 		changePasswordUri:'/login/pwchange',
@@ -32,12 +39,20 @@ const app = express(),
 		...dbTypes, first_name:'string', last_name:'string', email:'string'
 	}}),
 	db = {knex, table},
-	error = err => {throw err}
+	error = err => {throw err},
+	Jwt = JWT.sign({ username: 'eve' }, 'somestring')
 
 app.use(login({db, options}))
-app.use('/', (req, res) => {
-	res.send(req.user)
+app.use('/', (req, res) => res.send(req.user))
+
+//JWT support for app2
+app2.use((req, res, next) => {
+	req.cookies = cookie.parse(req.headers.cookie || '')
+	next()
 })
+app2.use(login({db, options:{...options, jwtKeyFile:resolve(__dirname, 'jwtKey.txt')}}))
+app2.use('/', (req, res) => res.send(req.user))
+
 var lastMediaType = 0
 const aMediaType = () => {
 	return (['text/html', 'application/json', 'application/xml'])[++lastMediaType%3]
@@ -129,6 +144,16 @@ describe('http authentication service', () => {
 		correctPasswordRequest('tom').then(({body}) =>
 			expect(JSON.stringify(body)).to.contain('first_name')
 				.and.contain('last_name').and.contain('email')
+		)
+	)
+	it('supports (optional) login by Json Web Token (JWT); depends on jwtKeyFile option exists (staticly cached)', () =>
+		chai.request(app2).get('/').set('Cookie', cookie.serialize('Jwt', Jwt)).redirects(0).then(
+			expect200, error
+		)
+	)
+	it('rejects with 401 Unautherized, if JWT is invalid', () =>
+		chai.request(app2).get('/').set('Cookie', cookie.serialize('Jwt', Jwt+'garbleIt')).redirects(0).then(
+			expect401, error
 		)
 	)
 })

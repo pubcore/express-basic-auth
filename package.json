@@ -1,21 +1,10 @@
 {
   "scripts": {
-    "test": "nyc --reporter=text mocha --inspect --require babel-register --recursive",
-    "build": "babel src --out-dir js",
-    "prepare": "npm run build",
-    "watch": "babel --watch src --out-dir js",
+    "test": "nyc --reporter=text mocha --inspect --recursive",
     "coverage": "nyc report --reporter=text-lcov"
   },
   "main": "js/index.js",
   "license": "MIT",
-  "babel": {
-    "presets": [
-      "env"
-    ],
-    "plugins": [
-      "transform-object-rest-spread"
-    ]
-  },
   "name": "@pubcore/express-basic-auth",
   "version": "1.0.6",
   "description": "express middleware to perform http basic authentication",
@@ -34,24 +23,22 @@
   ],
   "author": "pubcore",
   "dependencies": {
-    "@pubcore/authentication": "^1.0.2",
+    "@pubcore/authentication": "^1.1.0",
     "@pubcore/knex-auth": "^1.0.4",
     "basic-auth": "^2.0.1",
     "cookie": "^0.3.1"
   },
   "devDependencies": {
     "@pubcore/knex-create-test-db": "^1.0.0",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.16.0",
     "eslint-plugin-mocha": "^5.2.0",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
-    "nyc": "^12.0.2",
+    "nyc": "^14.1.1",
     "source-map-support": "^0.5.9",
     "sqlite3": "^4.0.2"
   }

@@ -1,9 +1,10 @@
-import {deactivateUser, addLoginFailed, resetLoginFailedCount,
-	updateLastLogin} from '@pubcore/knex-auth'
-import http401 from '../lib/http401'
-import cookie from 'cookie'
+'use strict'
+const {deactivateUser, addLoginFailed, resetLoginFailedCount,
+		updateLastLogin} = require('@pubcore/knex-auth'),
+	http401 = require('../lib/http401').default,
+	cookie = require('cookie')
 
-export default ({db, res, req, options}) => {
+exports.default = ({db, res, req, options}) => {
 	var {publicDeactivatedUri, changePasswordUri, publicCancelLoginUri} = options
 
 	return {
@@ -14,6 +15,7 @@ export default ({db, res, req, options}) => {
 		toDeactivate: ({username}) => deactivateUser(db, {username}).then(
 			() => res.redirect(publicDeactivatedUri)
 		),
+		invalidWebToken: () => http401({publicCancelLoginUri, res}),
 		invalidPassword: ({username}) => addLoginFailed(db, {username}).then(
 			() => http401({publicCancelLoginUri, res})
 		),

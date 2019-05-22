@@ -17,6 +17,7 @@
 * redirects to change password page (including a back-uri), if password is expired
 * support secondary password for SYSTEM users
 * does set a flag to user object (oldPwUsed), if secondary password exists, but old password has been used
+* optinal support of login by JsonWebToken cookie (Jwt), enabled if option "jwtKeyFile" is available
 
 [activity diagram](doc/authentication-flow.pdf)
 
@@ -28,7 +29,8 @@
 			maxTimeWithoutActivity: 1000 * 60 * 60 * 24 * 180,//[msec]
 			maxLoginAttempts:10,
 			maxLoginAttemptsTimeWindow:1000 * 3600 * 24,//[msec]
-			minTimeBetweenUpdates:1000 * 3600,//[msec]
+			minTimeBetweenUpdates:1000 * 3600,//[msec],
+			jwtKeyFile:'/run/secret/jwt-key.txt' //optional
 		},
 		table = 'user',
 

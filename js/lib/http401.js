@@ -1,4 +1,6 @@
-export default ({publicCancelLoginUri, res}) => {
+'use strict'
+
+exports.default = ({publicCancelLoginUri, res}) => {
 	var text = 'Unauthorized (401)'
 	res.status(401)
 	res.append(

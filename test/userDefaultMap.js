@@ -1,4 +1,6 @@
-export default (users=[{}]) => users.map(usr => ({...{
+'use strict'
+
+exports.default = (users=[{}]) => users.map(usr => ({...{
 	username:'eve',
 	type:'HUMAN',
 	deactivate:'no',
