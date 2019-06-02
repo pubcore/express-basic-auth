@@ -29,17 +29,17 @@
     "cookie": "^0.3.1"
   },
   "devDependencies": {
-    "@pubcore/knex-create-test-db": "^1.0.0",
+    "@pubcore/knex-create-test-db": "^1.1.0",
     "chai": "^4.2.0",
-    "chai-http": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^5.16.0",
-    "eslint-plugin-mocha": "^5.2.0",
-    "express": "^4.16.4",
+    "eslint-plugin-mocha": "^5.3.0",
+    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^5.2.0",
-    "moment": "^2.22.2",
+    "moment": "^2.24.0",
     "nyc": "^14.1.1",
-    "source-map-support": "^0.5.9",
-    "sqlite3": "^4.0.2"
+    "source-map-support": "^0.5.12",
+    "sqlite3": "^4.0.8"
   }
 }
