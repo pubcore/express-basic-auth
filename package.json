@@ -24,12 +24,12 @@
   "author": "pubcore",
   "dependencies": {
     "@pubcore/authentication": "^1.1.0",
-    "@pubcore/knex-auth": "^1.0.4",
+    "@pubcore/knex-auth": "^1.0.5",
     "basic-auth": "^2.0.1",
     "cookie": "^0.3.1"
   },
   "devDependencies": {
-    "@pubcore/knex-create-test-db": "^1.1.0",
+    "@pubcore/knex-create-test-db": "^1.1.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^5.16.0",
