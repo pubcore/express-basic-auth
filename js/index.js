@@ -27,11 +27,13 @@ var jwtKey = ''
 exports.default = ({db, options}) => (...args) => {
 	var [req, res, next] = args,
 		{name, pass} = basicAuth(req) || {},
-		{cookies} = req,
-		{Jwt} = cookies || {}
+		{cookies, cookiesByArray} = req,
+		{Jwt} = cookies || {},
+		jwtList = (cookiesByArray||{})['Jwt']
 
 	return authenticate({
 		jwt:Jwt,
+		jwtList,
 		username:name,
 		password:pass,
 		gofer:gofer({
