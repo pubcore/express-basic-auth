@@ -6,7 +6,7 @@
   "main": "js/index.js",
   "license": "MIT",
   "name": "@pubcore/express-basic-auth",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "express middleware to perform http basic authentication",
   "repository": {
     "type": "git",
