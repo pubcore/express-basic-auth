@@ -24,22 +24,22 @@
   "author": "pubcore",
   "dependencies": {
     "@pubcore/authentication": "^1.2.4",
-    "@pubcore/knex-auth": "^1.0.10",
+    "@pubcore/knex-auth": "^1.0.11",
     "basic-auth": "^2.0.1",
     "cookie": "^0.3.1"
   },
   "devDependencies": {
-    "@pubcore/knex-create-test-db": "^1.1.6",
+    "@pubcore/knex-create-test-db": "^1.1.12",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^6.8.0",
     "eslint-plugin-mocha": "^5.3.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mocha": "^7.1.1",
-    "moment": "^2.24.0",
-    "nyc": "^15.0.0",
-    "source-map-support": "^0.5.16",
-    "sqlite3": "^4.1.1"
+    "mocha": "^7.2.0",
+    "moment": "^2.29.1",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.19",
+    "sqlite3": "^4.2.0"
   }
 }
